@@ -16,7 +16,6 @@ fn bruteforce_file(path: &str) -> std::io::Result<()> {
 	let file = try!(File::open(path));
 	let reader = BufReader::new(file);
 
-
 	let mut best_string = String::new();
 	let mut max_score = 0;
 
@@ -38,10 +37,7 @@ fn bruteforce_file(path: &str) -> std::io::Result<()> {
 }
 
 fn bruteforce_xor(a: &Vec<u8>) -> Option<(String, u64)> {
-	let mut vec: Vec<u8> = Vec::new();
-	for _ in 0..a.len() {
-		vec.push(0);
-	}
+	let mut vec: Vec<u8> = vec![0; a.len()];
 
 	let mut max_score: u64 = 0;
 	let mut best_string: Vec<u8> = Vec::new();

@@ -6,11 +6,7 @@ use rustc_serialize::hex::{FromHex};
 fn main() {
 	let a = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736".from_hex().unwrap();
 
-
-	let mut vec: Vec<u8> = Vec::new();
-	for _ in 0..a.len() {
-		vec.push(0);
-	}
+	let mut vec: Vec<u8> = vec![0; a.len()];
 
 	let mut max_score: u64 = 0;
 	let mut best_string: Vec<u8> = Vec::new();
