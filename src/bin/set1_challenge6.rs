@@ -13,6 +13,11 @@ fn main() {
 
 	let key_size = guess_key_size(&data);
 	println!("guesses key size: {}", key_size);
+
+
+	let blocks = split_into_blocks(&data, key_size);
+
+	println!("Blocks count (should be key_size): {}", blocks.len());
 }
 
 fn load_from_file() -> std::io::Result<Vec<u8>> {
@@ -82,5 +87,11 @@ fn hamming_distance(str1: &[u8], str2: &[u8]) -> usize {
 }
 
 
-
+fn split_into_blocks(data: &[u8], key_size: usize) -> Vec<Vec<u8>> {
+	let mut blocks: Vec<Vec<u8>> = vec![Vec::new(); key_size];
+	for i in 0..data.len() {
+		blocks[i % key_size].push(data[i]);
+	}
+	return blocks;
+}
 
