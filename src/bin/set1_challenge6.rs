@@ -4,6 +4,7 @@ use rustc_serialize::base64::FromBase64;
 use std::io::prelude::*;
 use std::io::BufReader;
 use std::fs::File;
+use std::str;
 
 fn main() {
 	let data = match load_from_file() {
@@ -14,10 +15,24 @@ fn main() {
 	let key_size = guess_key_size(&data);
 	println!("guesses key size: {}", key_size);
 
-
 	let blocks = split_into_blocks(&data, key_size);
 
 	println!("Blocks count (should be key_size): {}", blocks.len());
+
+	let mut key: Vec<u8> = vec!(0; key_size);
+	for i in 0..blocks.len() {
+		key[i] = bruteforce_xor(&blocks[i]);
+	}
+
+	let mut decrypted: Vec<u8> = Vec::new();
+
+	for i in 0..data.len() {
+		decrypted.push(data[i] ^ key[i % key_size])
+	}
+
+	let string = str::from_utf8(&decrypted).unwrap();
+	println!("{}", string);
+
 }
 
 fn load_from_file() -> std::io::Result<Vec<u8>> {
@@ -95,3 +110,63 @@ fn split_into_blocks(data: &[u8], key_size: usize) -> Vec<Vec<u8>> {
 	return blocks;
 }
 
+
+fn bruteforce_xor(a: &Vec<u8>) -> u8 {
+	let mut vec: Vec<u8> = vec![0; a.len()];
+
+	let mut max_score: u64 = 0;
+	let mut best_char: u8 = 0;
+
+	'char_loop: for char in 0..255 {
+		let mut score: u64 = 0;
+		for i in 0..a.len() {
+			match a[i] ^ char {
+				0x20...0x7E|0xA => {
+					vec[i] = a[i] ^ char;
+					score += get_score(vec[i] as char);
+				}
+				_ => {
+					continue 'char_loop;
+				}
+			}
+		}
+		if score > max_score {
+			max_score = score;
+			best_char = char;
+		}
+	}
+	return best_char;
+}
+
+
+fn get_score(character: char) -> u64 {
+	return match character.to_uppercase().next().unwrap() {
+		'E' => 4452,
+		'T' => 3305,
+		'A' => 2865,
+		'O' => 2723,
+		'I' => 2697,
+		'N' => 2578,
+		'S' => 2321,
+		'R' => 2238,
+		'H' => 1801,
+		'L' => 1450,
+		'D' => 1360,
+		'C' => 1192,
+		'U' => 973,
+		'M' => 895,
+		'F' => 856,
+		'P' => 761,
+		'G' => 666,
+		'W' => 597,
+		'Y' => 593,
+		'B' => 529,
+		'V' => 375,
+		'K' => 193,
+		'X' => 84,
+		'J' => 57,
+		'Q' => 43,
+		'Z' => 32,
+		_ => 0,
+	}
+}
