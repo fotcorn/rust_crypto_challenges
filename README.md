@@ -1,6 +1,6 @@
 These are solutions for the first set of the [Matasano Crypto Challenges](http://cryptopals.com/sets/1/) written in Rust.
 
-Currently rust-crypto only works with Rust nightly (2e3b0c051 2015-04-01).
+You need a current nightly build (not older than 2014-04-03) or the 1.0.0 beta of Rust.
 
 The code in this project is by no means idiomatic Rust, so pull requests for enhancing it are very welcome!
 
