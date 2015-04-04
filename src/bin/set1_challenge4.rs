@@ -37,10 +37,10 @@ fn bruteforce_file(path: &str) -> std::io::Result<()> {
 }
 
 fn bruteforce_xor(a: &Vec<u8>) -> Option<(String, u64)> {
-	let mut vec: Vec<u8> = vec![0; a.len()];
+	let mut vec = vec![0; a.len()];
 
 	let mut max_score: u64 = 0;
-	let mut best_string: Vec<u8> = Vec::new();
+	let mut best_string = Vec::new();
 
 	'char_loop: for char in 0..255 {
 		let mut score: u64 = 0;
@@ -51,7 +51,7 @@ fn bruteforce_xor(a: &Vec<u8>) -> Option<(String, u64)> {
 					score += get_score(vec[i] as char);
 				}
 				_ => {
-					continue 'char_loop;
+					continue 'char_loop; // string contains unprintable chars, skip it
 				}
 			}
 		}
