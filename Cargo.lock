@@ -2,7 +2,7 @@
 name = "rust_crypto_challenges"
 version = "1.0.0"
 dependencies = [
- "rust-crypto 0.2.30 (git+https://github.com/rustyhorde/rust-crypto.git)",
+ "rust-crypto 0.2.30 (registry+https://github.com/rust-lang/crates.io-index)",
  "rustc-serialize 0.3.12 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -36,7 +36,7 @@ dependencies = [
 [[package]]
 name = "rust-crypto"
 version = "0.2.30"
-source = "git+https://github.com/rustyhorde/rust-crypto.git#75fbe7634b2818ad466fdbd28b04af2a9853b1b9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "gcc 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "libc 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
